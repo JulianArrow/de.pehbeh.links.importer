@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="de.pehbeh.links.importer" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/5.4/package.xsd">
+	<packageinformation>
+		<packagename>Link-Database: Importer</packagename>
+		<packagename language="de">Link-Datenbank: Importer</packagename>
+		<packagedescription>Enables data import from EasyLink to the link database.</packagedescription>
+		<packagedescription language="de">Ermöglicht den Datenimport von EasyLink in die Link-Datenbank.</packagedescription>
+		<version>1.0.0</version>
+		<date>2022-11-24</date>
+        <packageurl><![CDATA[https://darkwood.design/store/user-file-list/1298-julian-pfeil/]]></packageurl>
+	</packageinformation>
+
+	<authorinformation>
+        <author>Julian Pfeil</author>
+        <authorurl>https://julian-pfeil.de</authorurl>
+	</authorinformation>
+
+	<requiredpackages>
+		<requiredpackage minversion="5.5.0 RC 1">com.woltlab.wcf</requiredpackage>
+		<requiredpackage minversion="5.6.0">de.pehbeh.links</requiredpackage>
+		<requiredpackage minversion="1.0.0">com.cls.easylink</requiredpackage>
+	</requiredpackages>
+
+	<excludedpackages>
+		<excludedpackage version="6.0.0 Alpha 1">com.woltlab.wcf</excludedpackage>
+	</excludedpackages>
+
+	<instructions type="install">
+		<instruction type="file"/>
+		<instruction type="objectType"/>
+		<instruction type="language"/>
+	</instructions>
+
+	<instructions type="update" fromversion="5.4.1">
+		<instruction type="file"/>
+	</instructions>
+
+</package>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/5.4/objectType.xsd">
+	<import>
+		<type>
+			<name>com.woltlab.wcf.exporter.easylink</name>
+			<definitionname>com.woltlab.wcf.exporter</definitionname>
+			<classname>wcf\system\exporter\EasyLinkExporter</classname>
+		</type>
+
+		<type>
+			<name>de.pehbeh.links.linkEntry</name>
+			<definitionname>com.woltlab.wcf.importer</definitionname>
+			<classname>wcf\system\importer\LinkEntryImporter</classname>
+		</type>
+		<type>
+			<name>de.pehbeh.links.category</name>
+			<definitionname>com.woltlab.wcf.importer</definitionname>
+			<classname>wcf\system\importer\LinkEntryCategoryImporter</classname>
+		</type>
+	</import>
+</data>
