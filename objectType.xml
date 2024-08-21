@@ -10,12 +10,13 @@
 		<type>
 			<name>de.pehbeh.links.linkEntry</name>
 			<definitionname>com.woltlab.wcf.importer</definitionname>
-			<classname>wcf\system\importer\LinkEntryImporter</classname>
+			<classname>wcf\system\importer\LinksLinkEntryImporter</classname>
 		</type>
+        
 		<type>
 			<name>de.pehbeh.links.category</name>
 			<definitionname>com.woltlab.wcf.importer</definitionname>
-			<classname>wcf\system\importer\LinkEntryCategoryImporter</classname>
+			<classname>wcf\system\importer\LinksCategoryImporter</classname>
 		</type>
 	</import>
 </data>

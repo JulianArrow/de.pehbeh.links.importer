@@ -4,7 +4,7 @@ namespace wcf\system\importer;
 
 use wcf\data\links\LinkEntry;
 use wcf\data\links\LinkEntryEditor;
-use wcf\system\exporter\EasylinkExporter;
+use wcf\system\exporter\EasyLinkExporter;
 
 /**
  * @author      Julian Pfeil <https://julian-pfeil.de>
@@ -32,7 +32,7 @@ class LinksLinkEntryImporter extends AbstractImporter
          * @var $linkEntry LinkEntry
          */
         $linkEntry = LinkEntryEditor::create($data);
-        ImportHandler::getInstance()->saveNewID(EasylinkExporter::LINKS_OBJECT_TYPE_LINK_ENTRY, $oldID, $linkEntry->linkEntryID);
+        ImportHandler::getInstance()->saveNewID(EasyLinkExporter::LINKS_OBJECT_TYPE_LINK_ENTRY, $oldID, $linkEntry->linkEntryID);
         
         return $linkEntry->linkID;
     }

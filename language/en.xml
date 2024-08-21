@@ -2,5 +2,7 @@
 <language xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/5.4/language.xsd" languagecode="en" languagename="English" countrycode="gb">
 	<category name="wcf.acp.dataImport">
 		<item name="wcf.acp.dataImport.exporter.com.woltlab.wcf.exporter.easylink"><![CDATA[EasyLink » Link-Database]]></item>
-	</category>
+        <item name="wcf.acp.dataImport.data.de.pehbeh.links.category"><![CDATA[Category]]></item>
+        <item name="wcf.acp.dataImport.data.de.pehbeh.links.linkEntry"><![CDATA[Link entry]]></item>
+    </category>
 </language>

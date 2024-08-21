@@ -3,7 +3,7 @@
 namespace wcf\system\importer;
 
 use wcf\data\object\type\ObjectTypeCache;
-use wcf\system\exporter\EasylinkExporter;
+use wcf\system\exporter\EasyLinkExporter;
 
 /**
  * @author      Julian Pfeil <https://julian-pfeil.de>
@@ -15,12 +15,12 @@ use wcf\system\exporter\EasylinkExporter;
  * @subpackage system.importer
  *
  */
-class TicketsystemCategoryImporter extends AbstractCategoryImporter
+class LinksCategoryImporter extends AbstractCategoryImporter
 {
     /**
      * @inheritDoc
      */
-    protected $objectTypeName = EasylinkExporter::LINKS_OBJECT_TYPE_CATEGORY;
+    protected $objectTypeName = EasyLinkExporter::LINKS_OBJECT_TYPE_CATEGORY;
     
     /**
      * Creates a new `MediaCategoryImporter` object.

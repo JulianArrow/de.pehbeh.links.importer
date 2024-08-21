@@ -2,10 +2,15 @@
 
 namespace wcf\system\exporter;
 
+use wcf\data\attachment\AttachmentAction;
+use wcf\data\links\LinkEntry;
+use wcf\data\links\LinkEntryEditor;
 use wcf\system\database\exception\DatabaseQueryException;
 use wcf\system\database\exception\DatabaseQueryExecutionException;
 use wcf\system\exception\SystemException;
+use wcf\system\image\ImageHandler;
 use wcf\system\importer\ImportHandler;
+use wcf\system\WCF;
 
 /**
  * @author      Julian Pfeil <https://julian-pfeil.de>
@@ -17,7 +22,7 @@ use wcf\system\importer\ImportHandler;
  * @subpackage system.exporter
  *
  */
-class EasylinkExporter extends AbstractExporter
+class EasyLinkExporter extends AbstractExporter
 {
     public $validationTable = 'item';
 
@@ -143,7 +148,7 @@ class EasylinkExporter extends AbstractExporter
      * @throws DatabaseQueryException
      * @throws DatabaseQueryExecutionException
      */
-    public function countTickets()
+    public function countLinkEntries()
     {
         return $this->countDataFromTable($this->databasePrefix . $this->linkEntrySourceTable);
     }
@@ -160,7 +165,7 @@ class EasylinkExporter extends AbstractExporter
      */
     public function exportLinkEntries($offset, $limit)
     {
-        // get tickets
+        // get link-entries
         $sql = "SELECT	* from " . $this->databasePrefix . $this->linkEntrySourceTable;
         $statement = $this->database->prepare($sql, $limit, $offset);
         $statement->execute();
@@ -170,15 +175,16 @@ class EasylinkExporter extends AbstractExporter
                 self::LINKS_OBJECT_TYPE_CATEGORY,
                 $row['categoryID']
             );
+            
             if (empty($categoryID)) {
                 $categoryID = 0;
             }
 
             $data = [
                 'subject' => $row['title'],
-                'text' => $row['message'],
+                'message' => $row['message'],
                 'time' => $row['time'],
-                'categoryID' => $categoryID,
+                //'categoryID' => $categoryID,
                 'userID' => $row['userID'],
                 'username' => $row['username'],
                 'url' => $row['link'],
@@ -187,24 +193,43 @@ class EasylinkExporter extends AbstractExporter
                 'hasEmbeddedObjects' => $row['hasEmbeddedObjects'],
                 'enableComments' => $row['enableComments'],
                 'isDisabled' => $row['isDisabled'],
-                'lastEditTime' => $row['lastEditTime'],
+                'attachments' => $row['attachments'],
+                'isFeatured' => $row['isSticky'],
             ];
 
             // import easy-link
-            if ($newLinkID = ImportHandler::getInstance()->getImporter(self::TICKETSYSTEM_OBJECT_TYPE_TICKET)->import(
+            if ($newLinkID = ImportHandler::getInstance()->getImporter(self::LINKS_OBJECT_TYPE_LINK_ENTRY)->import(
                 $row['itemID'],
                 $data
             )) {
+                if ($categoryID > 0) {
+                    // categories
+                    $sqlCategory = "INSERT INTO wcf1_links_to_category
+                            (linkID, categoryID)
+                    VALUES      (?, ?)";
+                    $statementCategory = WCF::getDB()->prepare($sqlCategory);
+
+                    //main category
+                    $statementCategory->execute([
+                        $newLinkID,
+                        $categoryID,
+                    ]);
+                }
+
                 if ($data['attachments'] > 0) {
                     $this->transferAttachments($row['itemID'], $newLinkID);
                 }
 
-                if ($data['screenshot'] != '') {
-                    $screenshotPath = EASYLINK_DIR . '/screenshots/';
-                    $screenshotFileName = $data['screenshot'];
+                if ($row['screenshot'] != '') {
+                    $screenshotPath = EASYLINK_DIR . 'screenshots/';
+                    $screenshotFileName = $row['screenshot'];
                     $screenshotFile = $screenshotPath . $screenshotFileName;
+                    
+                    if (!\file_exists($screenshotFile)) {
+                        continue;
+                    }
 
-                    $imageFilePath = WCF_DIR . '/images/links/';
+                    $imageFilePath = WCF_DIR . 'images/links/';
                     $imageFileName = $newLinkID . '-' . $screenshotFileName;
                     $imageFile = $imageFilePath . $imageFileName;
                     
@@ -226,6 +251,13 @@ class EasylinkExporter extends AbstractExporter
                     }
                     
                     $adapter->writeImage($adapter->getImage(), $imageFile);
+
+                    $editor = new LinkEntryEditor(new LinkEntry($newLinkID));
+                    $editor->update(
+                        [
+                            'imageFile' => $imageFileName,
+                        ]
+                    );
                 }
             }
         }
